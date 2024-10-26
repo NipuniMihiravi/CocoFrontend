@@ -1,22 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import './App.css'; // Assuming your CSS file
-import Modal from 'react-modal';
-
-
-Modal.setAppElement('#root');
-
 
 const MenuTable = () => {
     const [items, setItems] = useState([]);
-    const API_URL = process.env.REACT_APP_API_URL;
 
     useEffect(() => {
         fetchMenuData();
     }, []);
 
     const fetchMenuData = () => {
-        axios.get(`${API_URL}/api/category') // Fetch all categories
+        axios.get('${process.env.REACT_APP_API_URL}/category') // Fetch all categories
             .then(response => {
                 console.log('Fetched category data:', response.data);
                 // Check if there's at least one category

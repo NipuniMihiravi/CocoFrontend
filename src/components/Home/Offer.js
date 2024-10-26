@@ -1,35 +1,27 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import './App.css';
-import Modal from 'react-modal';
-
-Modal.setAppElement('#root');
+import './App.css'; // Assuming your CSS file
 
 const Offer = () => {
     const [items, setItems] = useState([]);
-    const API_URL = process.env.REACT_APP_API_URL;
 
     useEffect(() => {
         fetchOfferData();
     }, []);
 
     const fetchOfferData = () => {
-        axios.get(`${API_URL}/api/category`) // Fetch all categories
+        axios.get('${process.env.REACT_APP_API_URL}/category') // Fetch all categories
             .then(response => {
                 console.log('Fetched category data:', response.data);
                 // Check if there are at least three categories
                 if (response.data.length >= 3) {
-                    const thirdCategory = response.data[2]; // Get the third category (0-based index)
-                    // Ensure thirdCategory has an `items` array
-                    if (thirdCategory.items && thirdCategory.items.length > 0) {
-                        const itemsFromThirdCategory = thirdCategory.items.slice(0, 3); // Get first three items
-                        setItems(itemsFromThirdCategory);
-                    } else {
-                        console.error("Third category has no items.");
-                        setItems([]);
-                    }
+                    // Get the third category (index 2 since it's 0-based index)
+                    const thirdCategory = response.data[2];
+                    // Get the first three items from the third category
+                    const itemsFromThirdCategory = thirdCategory.items.slice(0, 3);
+                    setItems(itemsFromThirdCategory);
                 } else {
-                    console.error("Less than three categories available.");
+                    // Handle case where there are fewer than three categories
                     setItems([]);
                 }
             })

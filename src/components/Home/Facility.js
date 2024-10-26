@@ -1,16 +1,20 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import Modal from 'react-modal';
 import './App.css';
+
+Modal.setAppElement('#root');
 
 const Facility = () => {
     const [facilities, setFacilities] = useState([]);
+    const API_URL = process.env.REACT_APP_API_URL;
 
     useEffect(() => {
         fetchFacilities();
     }, []);
 
     const fetchFacilities = () => {
-        axios.get('${process.env.REACT_APP_API_URL}/facility')
+        axios.get(`${API_URL}/api/facility`) // Corrected template literal usage
             .then(response => {
                 setFacilities(response.data);
             })
@@ -30,7 +34,7 @@ const Facility = () => {
                                 <div className={`facility-row ${index % 2 === 0 ? 'even-row' : 'odd-row'}`}>
                                     <div className="facility-image-container">
                                         <img
-                                            src={`data:image/jpeg;base64,${facility.image}`}
+                                            src={`data:image/jpeg;base64,${facility.image}`} // Assuming base64-encoded JPEG
                                             alt={facility.name}
                                             className="facility-image"
                                         />
@@ -38,7 +42,6 @@ const Facility = () => {
                                     <div className="facility-info">
                                         <h2>{facility.heading}</h2>
                                         <p>{facility.description}</p>
-
                                     </div>
                                 </div>
                             </div>

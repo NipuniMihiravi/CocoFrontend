@@ -1,9 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import Modal from 'react-modal';
 import './App.css'; // Custom CSS for styling the image gallery
+
+Modal.setAppElement('#root');
 
 const Gallery1 = () => {
     const [images, setImages] = useState([]);
+    const API_URL = process.env.REACT_APP_API_URL;
 
     useEffect(() => {
         fetchGalleryImages();
@@ -12,7 +16,7 @@ const Gallery1 = () => {
     const fetchGalleryImages = async () => {
         try {
             // Fetch the documents with the specific name "Home Page (Gallery) - Add multiple images"
-            const response = await axios.get('${process.env.REACT_APP_API_URL}/gallery', {
+            const response = await axios.get(`${API_URL}/api/gallery`, {
                 params: { name: "Home Page (Gallery) - Add multiple images" } // Adjust the query based on your backend API
             });
 
@@ -29,41 +33,42 @@ const Gallery1 = () => {
             console.error('Error fetching gallery images:', error);
         }
     };
+
     const navigateMoreGallery = () => {
-            // Replace with the actual navigation logic, e.g., using react-router-dom
-            window.location.href = '/more-gallery';
-        };
+        // Replace with the actual navigation logic, e.g., using react-router-dom
+        window.location.href = '/more-gallery';
+    };
 
     return (
         <div className="gallery-page">
-                    <header className="gallery-header">
-                        <h1>Creating memories as fresh as morning dew</h1>
-                        <p>
-                            Memories are like windows to the past, capturing moments of joy, love, and growth that shape who we are.
-                            They hold the essence of our experiences, both big and small, preserving the laughter, lessons, and even the bittersweet times.
-                            Whether vivid or faint, each memory tells a story, reminding us of the people we've met, the places we've been,
-                            and the journey we've traveled. In memories, we find comfort, reflection, and sometimes the spark of inspiration for what comes next.
-                        </p>
-                        <button className="gallery-button" onClick={navigateMoreGallery}>
-                            Explore More Gallery
-                        </button>
-                    </header>
+            <header className="gallery-header">
+                <h1>Creating memories as fresh as morning dew</h1>
+                <p>
+                    Memories are like windows to the past, capturing moments of joy, love, and growth that shape who we are.
+                    They hold the essence of our experiences, both big and small, preserving the laughter, lessons, and even the bittersweet times.
+                    Whether vivid or faint, each memory tells a story, reminding us of the people we've met, the places we've been,
+                    and the journey we've traveled. In memories, we find comfort, reflection, and sometimes the spark of inspiration for what comes next.
+                </p>
+                <button className="gallery-button" onClick={navigateMoreGallery}>
+                    Explore More Gallery
+                </button>
+            </header>
 
-        <div className="gallery-container">
-            {images.length > 0 ? (
-                images.map((image, index) => (
-                    <div key={index} className="image-wrapperr">
-                        <img
-                            src={`data:image/jpeg;base64,${image.imageData}`} // Assuming imageData is base64 encoded
-                           alt="" // Leave alt empty if the image is purely decorative
-                            className="gallery-image" // Apply styling from CSS
-                        />
-                    </div>
-                ))
-            ) : (
-                <p>No images available in the gallery.</p>
-            )}
-        </div>
+            <div className="gallery-container">
+                {images.length > 0 ? (
+                    images.map((image, index) => (
+                        <div key={index} className="image-wrapper">
+                            <img
+                                src={`data:image/jpeg;base64,${image.imageData}`} // Assuming imageData is base64 encoded
+                                alt="" // Leave alt empty if the image is purely decorative
+                                className="gallery-image" // Apply styling from CSS
+                            />
+                        </div>
+                    ))
+                ) : (
+                    <p>No images available in the gallery.</p>
+                )}
+            </div>
         </div>
     );
 };

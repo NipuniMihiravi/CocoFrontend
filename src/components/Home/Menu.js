@@ -7,7 +7,7 @@ Modal.setAppElement('#root');
 
 const CoverImageFive = () => {
     const [galleryImages, setGalleryImages] = useState([]);
-    const API_URL = process.env.REACT_APP_API_URL; // Use galleryImages to hold the image data
+    const API_URL = process.env.REACT_APP_API_URL; // Ensure this variable is correctly set
 
     useEffect(() => {
         fetchGalleryImages();
@@ -15,17 +15,15 @@ const CoverImageFive = () => {
 
     const fetchGalleryImages = async () => {
         try {
-            // Fetch the documents with the specific name "Cocoloco Menu"
             const response = await axios.get(`${API_URL}/api/gallery`, {
-                params: { name: "Cocoloco Menu" } // Adjust the query based on your backend API
+                params: { name: "Cocoloco Menu" } // Correctly formatted
             });
 
             console.log('Fetched items:', response.data);
 
             if (response.data && response.data.length > 6) {
-                // Access the seventh document in the response data array (index 6)
                 const selectedGallery = response.data[6];
-                setGalleryImages(selectedGallery.images); // Set the images array directly from the selected document
+                setGalleryImages(selectedGallery.images);
             } else {
                 console.error("Not enough data found; seventh row not available");
             }
@@ -40,7 +38,6 @@ const CoverImageFive = () => {
             <p>
                 Here is our mouthwatering menu, carefully crafted for you to enjoy and customize to your liking. Feel free to discuss your preferences with us, and together we’ll tailor the perfect experience for you. We are committed to delivering the very best service, ensuring your satisfaction every step of the way.
             </p>
-
             <div className="package-container1">
                 <table className="package-table1">
                     <tbody>
@@ -58,13 +55,13 @@ const CoverImageFive = () => {
                                         galleryImages.map((image, index) => (
                                             <img
                                                 key={index}
-                                                src={`data:image/jpeg;base64,${image.imageData}`} // Assuming imageData is base64 encoded
-                                                alt={`Menu item ${index + 1}`} // Provide alt text for accessibility
-                                                className="gallery-image1-package" // Apply styling from CSS
+                                                src={`data:image/jpeg;base64,${image.imageData}`}
+                                                alt={`Menu item ${index + 1}`}
+                                                className="gallery-image1-package"
                                             />
                                         ))
                                     ) : (
-                                        <p>Currently No Special Offers Available in Cocoloco Garden</p> // Fallback if no images are available
+                                        <p>Currently No Special Offers Available in Cocoloco Garden</p>
                                     )}
                                 </div>
                             </td>
@@ -72,7 +69,6 @@ const CoverImageFive = () => {
                     </tbody>
                 </table>
             </div>
-
             <div className="package-menu-image">
                 <img src={`${process.env.PUBLIC_URL}/images/Food1.jpg`} alt="Delicious dish 1" />
                 <img src={`${process.env.PUBLIC_URL}/images/Food2.jpg`} alt="Delicious dish 2" />

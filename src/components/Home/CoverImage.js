@@ -1,12 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import Slider from 'react-slick';
+import Modal from 'react-modal';
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import './App.css'; // Ensure this imports slick-carousel styles as well
 
+Modal.setAppElement('#root'); // Set the app root element for accessibility
+
 const CoverImage = () => {
     const [gallery, setGallery] = useState([]);
+    const API_URL = process.env.REACT_APP_API_URL;
 
     useEffect(() => {
         fetchCovers();
@@ -15,7 +19,7 @@ const CoverImage = () => {
     const fetchCovers = async () => {
         try {
             // Fetch only the specific document where the name is "Home Page (Main) - Add multiple images"
-            const response = await axios.get('${process.env.REACT_APP_API_URL}/gallery', {
+            const response = await axios.get(`${API_URL}/api/gallery`, { // Use backticks for template literals
                 params: { name: "Home Page (Main) - Add multiple images" } // Adjust the query based on your backend API
             });
             console.log('Fetched items:', response.data);
@@ -50,7 +54,7 @@ const CoverImage = () => {
                             <img
                                 src={`data:image/jpeg;base64,${image.imageData}`} // Assuming imageData is base64 encoded
                                 className="image-container img" // Class for the image styling
-                               alt="" // Leave alt empty if the image is purely decorative
+                                alt="Cover" // Provide meaningful alt text if not decorative
                             />
                         </div>
                     ))}

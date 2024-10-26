@@ -5,9 +5,9 @@ import Modal from 'react-modal';
 
 Modal.setAppElement('#root');
 
-const CoverImageFive = () => {
+const Menu = () => {
     const [galleryImages, setGalleryImages] = useState([]);
-    const API_URL = process.env.REACT_APP_API_URL; // Ensure this variable is correctly set
+    const API_URL = process.env.REACT_APP_API_URL; // Use galleryImages to hold the image data
 
     useEffect(() => {
         fetchGalleryImages();
@@ -15,20 +15,22 @@ const CoverImageFive = () => {
 
     const fetchGalleryImages = async () => {
         try {
-            const response = await axios.get(`${API_URL}/api/gallery`, {
-                params: { name: "Cocoloco Menu" } // Correctly formatted
+            // Fetch the documents with the specific name "Cocoloco Menu"
+            const response = await axios.get(`${API_URL}/api/gallery`, { // Fixed the URL syntax
+                params: { name: "Cocoloco Menu" } // Adjust the query based on your backend API
             });
 
             console.log('Fetched items:', response.data);
 
             if (response.data && response.data.length > 6) {
-                const selectedGallery = response.data[6];
-                setGalleryImages(selectedGallery.images);
+                // Access the seventh document in the response data array
+                const selectedGallery = response.data[6]; // Get the seventh document (index 6)
+                setGalleryImages(selectedGallery.images); // Set the images array directly from the selected document
             } else {
                 console.error("Not enough data found; seventh row not available");
             }
         } catch (error) {
-            console.error('Error fetching gallery images:', error);
+            console.error('Error fetching gallery images', error);
         }
     };
 
@@ -38,6 +40,7 @@ const CoverImageFive = () => {
             <p>
                 Here is our mouthwatering menu, carefully crafted for you to enjoy and customize to your liking. Feel free to discuss your preferences with us, and together we’ll tailor the perfect experience for you. We are committed to delivering the very best service, ensuring your satisfaction every step of the way.
             </p>
+
             <div className="package-container1">
                 <table className="package-table1">
                     <tbody>
@@ -55,13 +58,13 @@ const CoverImageFive = () => {
                                         galleryImages.map((image, index) => (
                                             <img
                                                 key={index}
-                                                src={`data:image/jpeg;base64,${image.imageData}`}
-                                                alt={`Menu item ${index + 1}`}
-                                                className="gallery-image1-package"
+                                                src={`data:image/jpeg;base64,${image.imageData}`} // Assuming imageData is base64 encoded
+                                                alt={`Menu item ${index + 1}`} // Better alt text for accessibility
+                                                className="gallery-image1-package" // Apply styling from CSS
                                             />
                                         ))
                                     ) : (
-                                        <p>Currently No Special Offers Available in Cocoloco Garden</p>
+                                        <p>Currently No Special Offers Available in Cocoloco Garden</p> // Fallback if no images are available
                                     )}
                                 </div>
                             </td>
@@ -80,4 +83,4 @@ const CoverImageFive = () => {
     );
 };
 
-export default CoverImageFive;
+export default Menu;
